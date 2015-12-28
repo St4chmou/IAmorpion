@@ -2,9 +2,12 @@
 public class Morpion {
 	// attributs
 	private int[][] matriceJeu;
+	private final int WIDTH = 3;
+	private final int HEIGHT = 3;
+	private final int PROFONDEUR_DE_JEU = 4;
 	// constructeurs
 	public Morpion() {
-		matriceJeu = new int[3][3];
+		matriceJeu = new int[WIDTH][HEIGHT];
 	}
 	// méthodes
 	public boolean jouer(boolean typeJoueur ,int ligne, int colonne) {
@@ -39,8 +42,8 @@ public class Morpion {
 		boolean full = true;
 		String message ="";
 		
-		for(int i=0; i<3 ; i++)
-			for(int j=0; j<3; j++)
+		for(int i=0; i<HEIGHT ; i++)
+			for(int j=0; j<WIDTH; j++)
 				if(matriceJeu[i][j]==0)
 					full = false;
 			
