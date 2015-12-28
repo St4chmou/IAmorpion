@@ -9,20 +9,18 @@ public class Fenetre extends JFrame implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+		
 	private JMenuBar menuBar = new JMenuBar();			// Instanciation d'un objet "Barre de menu"
 	
-	private JMenu menu1 = new JMenu("Jeu");				//
-	private JMenu menu2 = new JMenu("Paramètres");		// Parties du menu
-	private JMenu menu3 = new JMenu("Aide");			//
+	private JMenu jeu = new JMenu("Jeu");					//
+	private JMenuItem options = new JMenu("Options");		// Parties du menu
+	private JMenu aide = new JMenu("Aide");					//
 	
-	private JMenuItem item1 = new JMenuItem("Nouvelle partie");		//
-	private JMenuItem item2 = new JMenuItem("Meilleurs scores");	//
-	private JMenuItem item3 = new JMenuItem("Quitter");				//
-	private JMenuItem item4 = new JMenuItem("Plein écran");			// Elements du menu
-	private JMenuItem item5 = new JMenuItem("Options");				//
-	private JMenuItem item6 = new JMenuItem("Comment jouer ?");		//
-	private JMenuItem item7 = new JMenuItem("A propos");			//
+	private JMenuItem nouveau = new JMenuItem("Nouvelle partie");		//
+	private JMenuItem scores = new JMenuItem("Meilleurs scores");		//
+	private JMenuItem quitter = new JMenuItem("Quitter");				// Elements du menu
+	private JMenuItem commentJouer = new JMenuItem("Comment jouer ?");	//
+	private JMenuItem aPropos = new JMenuItem("A propos");				//
 	
 	private JButton[] boutons = new JButton[9];
 	
@@ -71,26 +69,23 @@ public class Fenetre extends JFrame implements ActionListener {
 		
 		
 		// Imbrication des éléments
-		item1.addActionListener(this);
-		this.menu1.add(item1);
-		this.menu1.addSeparator();
-		this.menu1.add(item2);
-		this.menu1.addSeparator();
-		item3.addActionListener(this);
-		this.menu1.add(item3);
-		this.menu2.add(item4);
-		this.menu2.addSeparator();
-		this.menu2.add(item5);
-		item6.addActionListener(this);;;
-		this.menu3.add(item6);
-		this.menu3.addSeparator();
-		item7.addActionListener(this);
-		this.menu3.add(item7);
+		nouveau.addActionListener(this);
+		this.jeu.add(nouveau);
+		this.jeu.addSeparator();
+		this.jeu.add(scores);
+		this.jeu.addSeparator();
+		quitter.addActionListener(this);
+		this.jeu.add(quitter);
+		commentJouer.addActionListener(this);;;
+		this.aide.add(commentJouer);
+		this.aide.addSeparator();
+		aPropos.addActionListener(this);
+		this.aide.add(aPropos);
 	
 		// Ajout des éléments dans la barre de menu
-		this.menuBar.add(menu1);
-		this.menuBar.add(menu2);
-		this.menuBar.add(menu3);
+		this.menuBar.add(jeu);
+		this.menuBar.add(options);
+		this.menuBar.add(aide);
 		
 		// Ajout de la barre de menu à la fenetre
 		this.setJMenuBar(menuBar);
@@ -116,12 +111,13 @@ public class Fenetre extends JFrame implements ActionListener {
 		}
 	}
 	
+	
 	// Traite le clic de souris : effectue la bonne action
 	public void actionPerformed(ActionEvent e){
-		if(e.getSource()==item1)NouvellePartie();
-		if(e.getSource()==item3)System.exit(0);
-        if(e.getSource()==item6)AfficheRegles();
-        if(e.getSource()==item7)AfficheInfos();
+		if(e.getSource()==nouveau)NouvellePartie();
+		if(e.getSource()==quitter)System.exit(0);
+        if(e.getSource()==commentJouer)AfficheRegles();
+        if(e.getSource()==aPropos)AfficheInfos();
 	}
 	
 }
