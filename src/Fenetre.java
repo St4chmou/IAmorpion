@@ -13,7 +13,7 @@ public class Fenetre extends JFrame implements ActionListener {
 	private JMenuBar menuBar = new JMenuBar();			// Instanciation d'un objet "Barre de menu"
 	
 	private JMenu jeu = new JMenu("Jeu");					//
-	private JMenuItem options = new JMenu("Options");		// Parties du menu
+	private JMenu options = new JMenu("Options");		// Parties du menu
 	private JMenu aide = new JMenu("Aide");					//
 	
 	private JMenuItem nouveau = new JMenuItem("Nouvelle partie");		//
@@ -21,10 +21,24 @@ public class Fenetre extends JFrame implements ActionListener {
 	private JMenuItem quitter = new JMenuItem("Quitter");				// Elements du menu
 	private JMenuItem commentJouer = new JMenuItem("Comment jouer ?");	//
 	private JMenuItem aPropos = new JMenuItem("A propos");				//
+	private JMenuItem choixCouleur = new JMenuItem("Couleur du fond");	//
 	
 	private JButton[] boutons = new JButton[9];
 	
+	JPanel pan = new JPanel();				// Instanciation d'un objet Jpanel
 	
+	// Extraction du symbole "croix" et mise à l'échelle
+	ImageIcon croix1 = new ImageIcon("images/croix.png");
+		Image img = croix1.getImage() ;  
+		Image newimg = img.getScaledInstance( 150, 150,  java.awt.Image.SCALE_SMOOTH );  
+		ImageIcon croix = new ImageIcon( img.getScaledInstance( 150, 150,  java.awt.Image.SCALE_SMOOTH ) );
+	
+	// Extraction du symbole "rond" et mise à l'échelle
+	ImageIcon rond1 = new ImageIcon("images/rond.png");
+		Image img2 = rond1.getImage(); 
+		Image newimg2 = img2.getScaledInstance( 150, 150, java.awt.Image.SCALE_SMOOTH ) ;
+		ImageIcon rond = new ImageIcon( newimg2 );
+			
 	// Messages
 	private static String regles = "Le Tic Tac Toe est un jeu de réflexion où 2 joueurs s'affrontent sur une grille de 3x3 cases.\n\nChaque joueur rempli à tour de rôle une case de la grille avec le symbole qui lui est attribué :\nX ou O. Lorsque c'est à vous de jouer, cliquez à l'endroit de la grille où vous souhaiter placer  \nvotre symbole pour jouer.\n\n Le gagnant est le joueur qui parvient à aligner 3 fois son symbole : horizontalement,\nverticalement ou en diagonale.\n\n";
 	private static String infos = "Tic Tac Toe\n\nProjet IA 2015 - 2016\nIng2 Info\n\nJulien BAYART\nNicolas SART\n\n";
@@ -37,11 +51,9 @@ public class Fenetre extends JFrame implements ActionListener {
 		this.setLocationRelativeTo(null);		// Position centrée sur l'écran
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	// Termine le processus quand on clique sur la croix rouge pour fermer la fenetre
 		this.setResizable(false);				// Empeche le redimensionnement de la fenetre
-			
-		JPanel pan = new JPanel();				// Instanciation d'un objet Jpanel
 		
 		this.setContentPane(pan);				// L'objet Jpanel est le "panneau de contenu" de la fenetre JFrame
-		pan.setBackground(Color.GRAY);			// Couleur de fond de la fenêtre
+		pan.setBackground(Color.WHITE);			// Couleur de fond de la fenêtre
 		
 				
 		this.setLayout(new BorderLayout());
@@ -54,18 +66,9 @@ public class Fenetre extends JFrame implements ActionListener {
         }
 
 		
-		ImageIcon croix = new ImageIcon("images/croix.png");
-			Image img = croix.getImage() ;  
-			Image newimg = img.getScaledInstance( 150, 150,  java.awt.Image.SCALE_SMOOTH ) ;  
-			croix = new ImageIcon( newimg );
-		   
-		ImageIcon rond = new ImageIcon("images/rond.png");
-			Image img2 = rond.getImage() ;  
-			Image newimg2 = img2.getScaledInstance( 150, 150,  java.awt.Image.SCALE_SMOOTH ) ;  
-			rond = new ImageIcon( newimg2 );
-		
 		boutons[1].setIcon(rond);
 		boutons[2].setIcon(croix);
+		
 		
 		
 		// Imbrication des éléments
@@ -76,6 +79,8 @@ public class Fenetre extends JFrame implements ActionListener {
 		this.jeu.addSeparator();
 		quitter.addActionListener(this);
 		this.jeu.add(quitter);
+		choixCouleur.addActionListener(this);
+		this.options.add(choixCouleur);
 		commentJouer.addActionListener(this);;;
 		this.aide.add(commentJouer);
 		this.aide.addSeparator();
@@ -109,6 +114,13 @@ public class Fenetre extends JFrame implements ActionListener {
 		for(int i=0;i<boutons.length;i++){
 			boutons[i].setIcon(null);
 		}
+		
+	}
+	
+	// Change la couleur de fond
+	public void CouleurFond(){
+		Color couleur = JColorChooser.showDialog(null, "Couleur du fond", Color.WHITE);
+		pan.setBackground(couleur);
 	}
 	
 	
@@ -116,6 +128,7 @@ public class Fenetre extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource()==nouveau)NouvellePartie();
 		if(e.getSource()==quitter)System.exit(0);
+		if(e.getSource()==choixCouleur)CouleurFond();
         if(e.getSource()==commentJouer)AfficheRegles();
         if(e.getSource()==aPropos)AfficheInfos();
 	}
