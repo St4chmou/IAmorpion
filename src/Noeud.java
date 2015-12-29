@@ -87,6 +87,10 @@ public class Noeud {
 		this.colonne = ligne;
 	}
 	
+	public int[][] getMatrice() {
+		return matrice;
+	}
+	
 	public void setMatrice(int[][] matrice) {
 		this.matrice = matrice;
 	}

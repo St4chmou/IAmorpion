@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Morpion {
 	// attributs
@@ -60,5 +61,80 @@ public class Morpion {
 			System.out.println(message +"fin du jeu!!");
 		}
 		return full||victoire;
+	}
+	
+	void copieMatrice(int [][] matriceSource, int[][] matriceDestination) {
+		for(int i = 0; i < matriceSource.length; i++)
+			for(int j = 0; j < matriceSource.length; j++)
+				matriceDestination[i][j] = matriceSource[i][j];
+	}
+	
+void creerArbreSituation(Noeud noeud, int profondeur){
+		
+		//si ce n'est pas une feuille et profondeur != 0
+		if(!noeud.isFeuille() && profondeur > 0) {
+			
+			copieMatrice(noeud.getMatrice(), matriceJeu);
+			
+			System.out.println("profondeur: " + profondeur);
+			
+			boolean joueurSuccesseur = !noeud.isMax();
+			boolean feuille = false;
+			int[][] matriceCopie = new int[HEIGHT][WIDTH];
+			
+			copieMatrice(matriceJeu, matriceCopie);
+			
+			//  on essaie de jouer dans chaque colonne
+			
+			for(int i=0; i<WIDTH; i++)
+				for(int j = 0; j < HEIGHT; j++) {
+					
+					copieMatrice(matriceCopie, matriceJeu);
+					
+					// on joue le tour suivant
+					if(jouer(joueurSuccesseur, i, j, matriceJeu)) {
+						// si fin du jeu alors feuille
+						if(estFinJeu(joueurSuccesseur)) {
+							feuille = true;
+						}
+						Noeud n = new Noeud();
+						n.setMax(joueurSuccesseur);
+						n.setMatrice(matriceJeu);
+						n.setFeuille(feuille);
+						//n.evaluer();
+						//n.setNoColonne(index);
+						n.print();
+						
+						
+						//recursif
+						creerArbreSituation(n, profondeur-1);
+						
+						// ajout du successeur
+						ArrayList<Noeud> successeurs = new ArrayList<Noeud>();
+						successeurs = noeud.getSuccesseurs();
+						successeurs.add(n);
+						noeud.setSuccesseurs(successeurs);
+					}	
+				}
+		}
+	}
+	
+	@Override
+	public String toString() {
+		String s;
+		s = "matrice=\n";
+		for(int i=0; i<3; i++) {
+			for(int j=0; j<3; j++)
+				s += matriceJeu[i][j] + " ";
+			s += "\n";
+		}
+		return s;
+	}
+	
+	public void print() {
+		System.out.println(this);
+	}
+	
+	public static void main(String[] args){
 	}
 }
