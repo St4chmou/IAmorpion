@@ -111,10 +111,26 @@ public class Fenetre extends JFrame implements ActionListener {
 	
 	// Lance une nouvelle partie
 	public void NouvellePartie(){
+		String[] nbJoueurs = {"Joueur vs Ordi","2 Joueurs"};
+		int choixNbJoueurs = JOptionPane.showOptionDialog(null, "Choisissez le type de partie :", "Choix de la nouvelle partie", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, nbJoueurs, nbJoueurs[0]);
+		
+		if(choixNbJoueurs==0)NouvellePartieOrdi();
+		if(choixNbJoueurs==1)NouvellePartie2J();
+		
+	}
+	
+	public void NouvellePartieOrdi(){
 		for(int i=0;i<boutons.length;i++){
 			boutons[i].setIcon(null);
 		}
-		
+		boutons[0].setIcon(rond);
+	}
+	
+	public void NouvellePartie2J(){
+		for(int i=0;i<boutons.length;i++){
+			boutons[i].setIcon(null);
+		}
+		boutons[1].setIcon(rond);
 	}
 	
 	// Change la couleur de fond
