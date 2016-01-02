@@ -5,7 +5,7 @@ public class Morpion {
 	private int[][] matriceJeu;
 	private final int WIDTH = 3;
 	private final int HEIGHT = 3;
-	private final int PROFONDEUR_DE_JEU = 4;
+	//private final int PROFONDEUR_DE_JEU = 4;
 	// constructeurs
 	public Morpion() {
 		matriceJeu = new int[WIDTH][HEIGHT];
@@ -63,60 +63,74 @@ public class Morpion {
 		return full||victoire;
 	}
 	
-	void copieMatrice(int [][] matriceSource, int[][] matriceDestination) {
+	public static void copieMatrice(int [][] matriceSource, int[][] matriceDestination) {
 		for(int i = 0; i < matriceSource.length; i++)
 			for(int j = 0; j < matriceSource.length; j++)
 				matriceDestination[i][j] = matriceSource[i][j];
 	}
 	
-void creerArbreSituation(Noeud noeud, int profondeur){
-		
-		//si ce n'est pas une feuille et profondeur != 0
+	void creerArbreSituation(Noeud noeud, int profondeur){
 		if(!noeud.isFeuille() && profondeur > 0) {
-			
-			copieMatrice(noeud.getMatrice(), matriceJeu);
-			
-			System.out.println("profondeur: " + profondeur);
-			
 			boolean joueurSuccesseur = !noeud.isMax();
 			boolean feuille = false;
-			int[][] matriceCopie = new int[HEIGHT][WIDTH];
-			
-			copieMatrice(matriceJeu, matriceCopie);
-			
-			//  on essaie de jouer dans chaque colonne
-			
+			ArrayList<Noeud> successeurs = new ArrayList<Noeud>();
 			for(int i=0; i<WIDTH; i++)
 				for(int j = 0; j < HEIGHT; j++) {
-					
-					copieMatrice(matriceCopie, matriceJeu);
-					
-					// on joue le tour suivant
-					if(jouer(joueurSuccesseur, i, j, matriceJeu)) {
-						// si fin du jeu alors feuille
-						if(estFinJeu(joueurSuccesseur)) {
+					Noeud n = new Noeud();
+					int[][] matriceCopie = new int[HEIGHT][WIDTH];
+					copieMatrice(noeud.getMatrice(), matriceCopie);
+					if(jouer(joueurSuccesseur, i, j, matriceCopie)) {
+						if(estFinJeu(joueurSuccesseur) || profondeur == 1)
 							feuille = true;
-						}
-						Noeud n = new Noeud();
-						n.setMax(joueurSuccesseur);
-						n.setMatrice(matriceJeu);
+						n.setMatrice(matriceCopie);
 						n.setFeuille(feuille);
-						//n.evaluer();
-						//n.setNoColonne(index);
-						n.print();
-						
+						n.evaluer();
+						n.setMax(joueurSuccesseur);
+						n.setLigne(i);
+						n.setColonne(j);
 						
 						//recursif
 						creerArbreSituation(n, profondeur-1);
 						
-						// ajout du successeur
-						ArrayList<Noeud> successeurs = new ArrayList<Noeud>();
-						successeurs = noeud.getSuccesseurs();
 						successeurs.add(n);
-						noeud.setSuccesseurs(successeurs);
-					}	
+					}
 				}
+			noeud.setSuccesseurs(successeurs);
 		}
+	}
+
+	public int resolution(Noeud noeud, int alpha, int beta) {
+		int evaluation = 0;
+		if(noeud.isFeuille())
+			return noeud.getH();
+		
+		int bestEval;
+		if(noeud.isMax()) {
+			bestEval = alpha;
+			for(Noeud successeur : noeud.getSuccesseurs()) {
+				evaluation = resolution(successeur, bestEval, beta);
+				successeur.setH(evaluation);
+				if(evaluation > bestEval)
+					bestEval = evaluation;
+				if(bestEval >= beta)
+					return bestEval;
+			}
+		}
+		else {
+			bestEval = beta;
+			for(Noeud successeur : noeud.getSuccesseurs()) {
+				evaluation = resolution(successeur, bestEval, beta);
+				successeur.setH(evaluation);
+				if(evaluation < bestEval)
+					bestEval = evaluation;
+				if(bestEval <= beta)
+					return bestEval;
+			}
+		}
+		
+		
+		
+		return evaluation;
 	}
 	
 	@Override
@@ -136,5 +150,11 @@ void creerArbreSituation(Noeud noeud, int profondeur){
 	}
 	
 	public static void main(String[] args){
+		Morpion m = new Morpion();
+		int[][] matrice = new int[3][3];
+		Noeud noeud = new Noeud(true, matrice);
+		noeud.evaluer();
+		m.creerArbreSituation(noeud, 2);
+		//noeud.print();
 	}
 }

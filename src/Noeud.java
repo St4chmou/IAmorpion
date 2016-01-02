@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Noeud {
 	// attributs
@@ -14,6 +13,11 @@ public class Noeud {
 	public Noeud() {
 		matrice = new int[3][3];
 		successeurs = new ArrayList<Noeud>();
+	}
+	public Noeud(boolean typeJoueur)
+	{
+		this();
+		this.typeJoueur = typeJoueur;
 	}
 	public Noeud(boolean typeJoueur, int[][] matrice)
 	{
@@ -84,7 +88,7 @@ public class Noeud {
 	}
 	
 	public void setLigne(int ligne) {
-		this.colonne = ligne;
+		this.ligne = ligne;
 	}
 	
 	public int[][] getMatrice() {
@@ -117,17 +121,65 @@ public class Noeud {
 		return false;
 	}
 	
+	public int nombreLignesPossibles(boolean typeJoueur) {
+		// on copie la matrice
+		int[][] copieMatrice = new int[3][3];
+		Morpion.copieMatrice(matrice, copieMatrice);
+		// on remplit les cases vides par les pions du joueur à vérifier
+		int jeton ;
+		if(typeJoueur)
+			jeton = 1;
+		else
+			jeton = 2;
+		for(int i=0; i<3; i++) {
+			for(int j=0; j<3; j++)
+				if(copieMatrice[i][j] == 0)
+					copieMatrice[i][j] = jeton;
+		}
+		
+		// on compte les lignes avec le code du dessus + compteur
+		
+		// vérifier lignes
+		int compteur = 0;
+		for(int i=0; i<3; i++)
+			if((copieMatrice[i][0] == jeton)&&(copieMatrice[i][1] == jeton)&&(copieMatrice[i][2] == jeton))
+				compteur++;
+		//vérifier colonnes
+		for(int i=0; i<3; i++)
+			if((copieMatrice[0][i] == jeton)&&(copieMatrice[1][i] == jeton)&&(copieMatrice[2][i] == jeton))
+				compteur++;
+		// vérifier diagonales
+		if((copieMatrice[0][0] == jeton)&&(copieMatrice[1][1] == jeton)&&(copieMatrice[2][2] == jeton))
+			compteur++;
+		if((copieMatrice[2][0] == jeton)&&(copieMatrice[1][1] == jeton)&&(copieMatrice[0][2] == jeton))
+			compteur++;
+		
+		//on renvoit la valeur
+		return compteur;
+	}
+	
+	void evaluer() {
+		int h = nombreLignesPossibles(typeJoueur) - nombreLignesPossibles(!typeJoueur);
+		setH(h);
+	}
+	
 	@Override
 	public String toString() {
 		String s;
-		s = "matrice=\n";
-		for(int i=0; i<3; i++) {
-			for(int j=0; j<3; j++)
+		int i = 0;
+		int j = 0;
+		s = "\nmatrice=\n";
+		for(i=0; i<3; i++) {
+			for(j=0; j<3; j++)
 				s += matrice[i][j] + " ";
 			s += "\n";
 		}
-		s += "successeurs=" + successeurs
-		+ "\ntypeJoueur=" + typeJoueur + ", ligne=" + ligne + ", colonne=" + colonne + ", feuille=" + feuille + ", h=" + h;
+		
+		for(Noeud successeur : this.getSuccesseurs()) {
+			s +=  successeur;
+		}
+		
+		s += "\ntypeJoueur=" + typeJoueur + ", ligne=" + ligne + ", colonne=" + colonne + ", feuille=" + feuille + ", h=" + h;
 		return s;
 	}
 	
