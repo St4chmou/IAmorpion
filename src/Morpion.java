@@ -114,6 +114,7 @@ public class Morpion {
 					bestEval = evaluation;
 				if(bestEval >= beta)
 					return bestEval;
+					
 			}
 		}
 		else {
@@ -130,7 +131,7 @@ public class Morpion {
 		
 		
 		
-		return evaluation;
+		return bestEval;
 	}
 	
 	@Override

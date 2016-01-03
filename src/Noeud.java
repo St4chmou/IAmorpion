@@ -168,18 +168,19 @@ public class Noeud {
 		String s;
 		int i = 0;
 		int j = 0;
-		s = "\nmatrice=\n";
+		s = "matrice=\n";
 		for(i=0; i<3; i++) {
 			for(j=0; j<3; j++)
 				s += matrice[i][j] + " ";
 			s += "\n";
 		}
 		
+		s += "typeJoueur=" + typeJoueur + ", ligne=" + ligne + ", colonne=" + colonne + ", feuille=" + feuille + ", h=" + h + "\n\n";
+		
 		for(Noeud successeur : this.getSuccesseurs()) {
 			s +=  successeur;
 		}
 		
-		s += "\ntypeJoueur=" + typeJoueur + ", ligne=" + ligne + ", colonne=" + colonne + ", feuille=" + feuille + ", h=" + h;
 		return s;
 	}
 	
