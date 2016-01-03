@@ -5,7 +5,7 @@ public class Main {
 	public static void main(String[] args){  
 		final int PROFONDEUR_DE_JEU = 2;
 		
-		//Fenetre fen = new Fenetre();
+		Fenetre fen = new Fenetre();
 		
 		Morpion m = new Morpion();
 		
@@ -21,28 +21,38 @@ public class Main {
 		int eval;
 		
 		racine.printM();
-		// resolution
+		
+		int[] coord = new int[2];
 		
 		while(!m.estFinJeu(joueur) || !m.estFinJeu(!joueur) ) {
-			
-			m.creerArbreSituation(racine, PROFONDEUR_DE_JEU);
-			eval = m.resolution(racine, Integer.MIN_VALUE, Integer.MAX_VALUE);
-			racine.setH(eval);
-			trouve = false;
-			ArrayList<Noeud> successeurs = racine.getSuccesseurs();
-			Noeud meilleurSuccesseur = null;
-			for(int i=0; i<successeurs.size()&&!trouve; i++) {
-				if(successeurs.get(i).getH() == eval) {
-					trouve = true;
-					meilleurSuccesseur = successeurs.get(i);
-				}
+			//si c'est au joueur
+			if(joueur == true) {
+				while(!m.jouer(joueur, coord[0], coord[1], grille));
 			}
-			m.jouer(joueur, meilleurSuccesseur.getLigne(), meilleurSuccesseur.getColonne(), grille);
-			racine.printM();
-			racine.setMatrice(grille);
-			joueur = !joueur;
-			racine.setMax(joueur);
-			m.setMatrice(grille);
+			else {
+				// recuperer les coordonnees + jouer
+				
+				// si c'est à l'ordi
+				
+				m.creerArbreSituation(racine, PROFONDEUR_DE_JEU);
+				eval = m.resolution(racine, Integer.MIN_VALUE, Integer.MAX_VALUE);
+				racine.setH(eval);
+				trouve = false;
+				ArrayList<Noeud> successeurs = racine.getSuccesseurs();
+				Noeud meilleurSuccesseur = null;
+				for(int i=0; i<successeurs.size()&&!trouve; i++) {
+					if(successeurs.get(i).getH() == eval) {
+						trouve = true;
+						meilleurSuccesseur = successeurs.get(i);
+					}
+				}
+				m.jouer(joueur, meilleurSuccesseur.getLigne(), meilleurSuccesseur.getColonne(), grille);
+				racine.printM();
+				racine.setMatrice(grille);
+				joueur = !joueur;
+				racine.setMax(joueur);
+				m.setMatrice(grille);
+			}
 		}
 		
 	} 
