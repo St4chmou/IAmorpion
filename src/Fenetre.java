@@ -27,6 +27,13 @@ public class Fenetre extends JFrame implements ActionListener {
 	
 	JPanel pan = new JPanel();				// Instanciation d'un objet Jpanel
 	
+	private int[] coord = new int[2];
+	
+	// getter du tableau de coordonnées clic
+	 public int[] getCoord() {
+	  return coord;
+	 }
+	
 	// Extraction du symbole "croix" et mise à l'échelle
 	ImageIcon croix1 = new ImageIcon("images/croix.png");
 		Image img = croix1.getImage() ;  
@@ -147,6 +154,21 @@ public class Fenetre extends JFrame implements ActionListener {
 		if(e.getSource()==choixCouleur)CouleurFond();
         if(e.getSource()==commentJouer)AfficheRegles();
         if(e.getSource()==aPropos)AfficheInfos();
+        for(int i=0;i<9;i++){
+            if(e.getSource()==boutons[i]){
+             switch(i){
+             case 0 : coord[0] = 1; coord[1] = 1; break;
+             case 1 : coord[0] = 1; coord[1] = 2; break;
+             case 2 : coord[0] = 1; coord[1] = 3; break;
+             case 3 : coord[0] = 2; coord[1] = 1; break;
+             case 4 : coord[0] = 2; coord[1] = 2; break;
+             case 5 : coord[0] = 2; coord[1] = 3; break;
+             case 6 : coord[0] = 3; coord[1] = 1; break;
+             case 7 : coord[0] = 3; coord[1] = 2; break;
+             case 8 : coord[0] = 3; coord[1] = 3; break;
+             }
+            }
+           }
 	}
 	
 }
