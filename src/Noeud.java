@@ -160,6 +160,10 @@ public class Noeud {
 	
 	void evaluer() {
 		int h = nombreLignesPossibles(typeJoueur) - nombreLignesPossibles(!typeJoueur);
+		if(troisPionsAlignes(!typeJoueur))
+			h += 100;
+		if(troisPionsAlignes(typeJoueur))
+			h -= 200;
 		setH(h);
 	}
 	
@@ -168,24 +172,33 @@ public class Noeud {
 		String s;
 		int i = 0;
 		int j = 0;
-		s = "matrice=\n";
+		s = "\nmatrice=\n";
 		for(i=0; i<3; i++) {
 			for(j=0; j<3; j++)
 				s += matrice[i][j] + " ";
 			s += "\n";
 		}
 		
-		s += "typeJoueur=" + typeJoueur + ", ligne=" + ligne + ", colonne=" + colonne + ", feuille=" + feuille + ", h=" + h + "\n\n";
-		
 		for(Noeud successeur : this.getSuccesseurs()) {
 			s +=  successeur;
 		}
 		
+		s += "\ntypeJoueur=" + typeJoueur + ", ligne=" + ligne + ", colonne=" + colonne + ", feuille=" + feuille + ", h=" + h;
 		return s;
 	}
 	
 	public void print() {
 		System.out.println(this);
+	}
+	
+	public void printM() {
+		String s = "\nmatrice=\n";
+		for(int i=0; i<3; i++) {
+			for(int j=0; j<3; j++)
+				s += matrice[i][j] + " ";
+			s += "\n";
+		}
+		System.out.println(s);
 	}
 	
 	public static void main(String[] args){       

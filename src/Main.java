@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Main {
 	
@@ -8,47 +9,41 @@ public class Main {
 		
 		Morpion m = new Morpion();
 		
-		int[][] matriceTest = new int[3][3];
-		//matriceTest[1][1] = 1;
+		int[][] grille = new int[3][3];
 		
-		Noeud racine = new Noeud(true, matriceTest);
+		boolean joueur = true;
+		Noeud racine = new Noeud(joueur, grille);
 		racine.evaluer();
 		m.creerArbreSituation(racine, PROFONDEUR_DE_JEU);
 		
 		
-		racine.print();
+		boolean trouve;
+		int eval;
 		
-		int eval = m.resolution(racine, Integer.MIN_VALUE, Integer.MAX_VALUE);
-		
-		System.out.println(eval);
-		
-		/*
-		int[][] matriceTest = new int[3][3];
-		matriceTest[1][1] = 2;
-		Noeud noeudTest = new Noeud(false, matriceTest);
-		noeudTest.evaluer();
-		noeudTest.print();
-		*/
-		
+		racine.printM();
 		// resolution
 		
-		/*
-		int eval = m.resolution(racine, integer.MIN_VALUE, integer.MAX_VALUE);
-		racine.setH(eval);
-		boulean trouve = false;
-		ArrayList<Noeud> successeurs = racine.getSuccesseurs();
-		Noeud meilleurSuccesseur = null;
-		for(int i=0; i<successeurs.size()&&!trouve; i++) {
-			if(successeurs.get(i).getH == eval) {
-				trouve = true;
-				meilleurSuccesseur = successeur.get(i);
+		while(!m.estFinJeu(joueur) || !m.estFinJeu(!joueur) ) {
+			
+			m.creerArbreSituation(racine, PROFONDEUR_DE_JEU);
+			eval = m.resolution(racine, Integer.MIN_VALUE, Integer.MAX_VALUE);
+			racine.setH(eval);
+			trouve = false;
+			ArrayList<Noeud> successeurs = racine.getSuccesseurs();
+			Noeud meilleurSuccesseur = null;
+			for(int i=0; i<successeurs.size()&&!trouve; i++) {
+				if(successeurs.get(i).getH() == eval) {
+					trouve = true;
+					meilleurSuccesseur = successeurs.get(i);
+				}
 			}
+			m.jouer(joueur, meilleurSuccesseur.getLigne(), meilleurSuccesseur.getColonne(), grille);
+			racine.printM();
+			racine.setMatrice(grille);
+			joueur = !joueur;
+			racine.setMax(joueur);
+			m.setMatrice(grille);
 		}
-		m.jouer(true, meilleurSuccesseur.getLigne, meilleurSuccesseur.getColonne);
-		m.print();
-		*/
 		
-	  } 
-	
-	
+	} 
 }

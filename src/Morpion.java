@@ -10,6 +10,10 @@ public class Morpion {
 	public Morpion() {
 		matriceJeu = new int[WIDTH][HEIGHT];
 	}
+	
+	public void setMatrice(int[][] matriceJeu) {
+		this.matriceJeu = matriceJeu;
+	}
 	// méthodes
 	public boolean jouer(boolean typeJoueur ,int ligne, int colonne) {
 
@@ -79,8 +83,8 @@ public class Morpion {
 					Noeud n = new Noeud();
 					int[][] matriceCopie = new int[HEIGHT][WIDTH];
 					copieMatrice(noeud.getMatrice(), matriceCopie);
-					if(jouer(joueurSuccesseur, i, j, matriceCopie)) {
-						if(estFinJeu(joueurSuccesseur) || profondeur == 1)
+					if(jouer(noeud.isMax(), i, j, matriceCopie)) {
+						if(estFinJeu(noeud.isMax()) || profondeur == 1)
 							feuille = true;
 						n.setMatrice(matriceCopie);
 						n.setFeuille(feuille);
@@ -114,7 +118,6 @@ public class Morpion {
 					bestEval = evaluation;
 				if(bestEval >= beta)
 					return bestEval;
-					
 			}
 		}
 		else {
@@ -131,7 +134,7 @@ public class Morpion {
 		
 		
 		
-		return bestEval;
+		return evaluation;
 	}
 	
 	@Override
