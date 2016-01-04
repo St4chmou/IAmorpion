@@ -188,6 +188,14 @@ public class Fenetre extends JFrame implements ActionListener {
 		JOptionPane.showMessageDialog(null, "Egalité !", "Fin du jeu", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	public void MessageFin4(){
+		JOptionPane.showMessageDialog(null, "Joueur 1 gagne ( O )", "Fin du jeu", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void MessageFin5(){
+		JOptionPane.showMessageDialog(null, "Joueur 2 gagne ( X )", "Fin du jeu", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
 	// Affiche un message "infos"
 	public void AfficheInfos(){
 		JOptionPane.showMessageDialog(null, infos, "Comment jouer ?", JOptionPane.INFORMATION_MESSAGE);
@@ -234,6 +242,40 @@ public class Fenetre extends JFrame implements ActionListener {
 		pan.setBackground(couleur);
 	}
 	
+	public boolean troisPionsAlignes(boolean typeJoueur) {
+		int jeton ;
+		if(typeJoueur)
+			jeton = 1;
+		else
+			jeton = 2;
+		// vérifier lignes
+		for(int i=0; i<3; i++)
+			if((matrice[i][0] == jeton)&&(matrice[i][1] == jeton)&&(matrice[i][2] == jeton))
+				return true;
+		//vérifier colonnes
+		for(int i=0; i<3; i++)
+			if((matrice[0][i] == jeton)&&(matrice[1][i] == jeton)&&(matrice[2][i] == jeton))
+				return true;
+		// vérifier diagonales
+		if((matrice[0][0] == jeton)&&(matrice[1][1] == jeton)&&(matrice[2][2] == jeton))
+			return true;
+		if((matrice[2][0] == jeton)&&(matrice[1][1] == jeton)&&(matrice[0][2] == jeton))
+			return true;
+		return false;
+	}
+	
+	public boolean matricePleine(){
+		boolean plein = true;
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				if(matrice[i][j]==0){
+					plein = false;
+				}
+			}
+		}
+		return plein;
+	}
+	
 	
 	// Traite le clic de souris : effectue la bonne action
 	public void actionPerformed(ActionEvent e){
@@ -276,10 +318,23 @@ public class Fenetre extends JFrame implements ActionListener {
         			if(qui==true && matrice[coord[0]][coord[1]]==0){
         				matrice[coord[0]][coord[1]]=1;
         				majFenetre();
+        				if(this.troisPionsAlignes(qui)){
+        					MessageFin4();
+        				}
+        				else if(matricePleine()){
+        					MessageFin3();
+        				}
         			}
         			if(qui==false && matrice[coord[0]][coord[1]]==0){
         				matrice[coord[0]][coord[1]]=2;
         				majFenetre();
+        				if(this.troisPionsAlignes(qui)){
+        					MessageFin5();
+        					
+        				}
+        				else if(matricePleine()){
+        					MessageFin3();
+        				}
         			}
         			qui=!qui;
         		}
