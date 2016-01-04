@@ -35,8 +35,11 @@ public class Morpion {
 			jeton = 1;
 		else
 			jeton = 2;
+		if(ligne<0 || colonne<0)
+			return false;
 		if (matrice[ligne][colonne]!=0)
 			return false;
+			
 		matrice[ligne][colonne] = jeton;
 		return true;
 	}

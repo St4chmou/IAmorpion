@@ -28,11 +28,70 @@ public class Fenetre extends JFrame implements ActionListener {
 	JPanel pan = new JPanel();				// Instanciation d'un objet Jpanel
 	
 	private int[] coord = new int[2];
+	private int[][] matrice = new int[3][3];
+	
+	private boolean event;
 	
 	// getter du tableau de coordonnées clic
 	 public int[] getCoord() {
-	  return coord;
+		 return coord;
 	 }
+	 
+	 public void setMatrice(int[][] matrice) {
+		 this.matrice = matrice;
+	 }
+	 
+	 public void setEvent(boolean event) {
+		 this.event = event;
+	 }
+	 
+	 public boolean isEvent() {
+		 return event;
+	 }
+	 
+	 public void majFenetre() {
+		 if(matrice[0][0] == 1)
+			 boutons[0].setIcon(rond);
+		 if(matrice[0][1] == 1)
+			 boutons[1].setIcon(rond);
+		 if(matrice[0][2] == 1)
+			 boutons[2].setIcon(rond);
+		 if(matrice[1][0] == 1)
+			 boutons[3].setIcon(rond);
+		 if(matrice[1][1] == 1)
+			 boutons[4].setIcon(rond);
+		 if(matrice[1][2] == 1)
+			 boutons[5].setIcon(rond);
+		 if(matrice[2][0] == 1)
+			 boutons[6].setIcon(rond);
+		 if(matrice[2][1] == 1)
+			 boutons[7].setIcon(rond);
+		 if(matrice[2][2] == 1)
+			 boutons[8].setIcon(rond);
+		 
+		 
+		 if(matrice[0][0] == 2)
+			 boutons[0].setIcon(croix);
+		 if(matrice[0][1] == 2)
+			 boutons[1].setIcon(croix);
+		 if(matrice[0][2] == 2)
+			 boutons[2].setIcon(croix);
+		 if(matrice[1][0] == 2)
+			 boutons[3].setIcon(croix);
+		 if(matrice[1][1] == 2)
+			 boutons[4].setIcon(croix);
+		 if(matrice[1][2] == 2)
+			 boutons[5].setIcon(croix);
+		 if(matrice[2][0] == 2)
+			 boutons[6].setIcon(croix);
+		 if(matrice[2][1] == 2)
+			 boutons[7].setIcon(croix);
+		 if(matrice[2][2] == 2)
+			 boutons[8].setIcon(croix);
+	
+	 }
+	 
+	 
 	
 	// Extraction du symbole "croix" et mise à l'échelle
 	ImageIcon croix1 = new ImageIcon("images/croix.png");
@@ -73,10 +132,13 @@ public class Fenetre extends JFrame implements ActionListener {
         }
 
 		
-		boutons[1].setIcon(rond);
-		boutons[2].setIcon(croix);
+		//boutons[1].setIcon(rond);
+		//boutons[2].setIcon(croix);
 		
+		coord[0] = -1;
+		coord[1] = -1;
 		
+		event = false;
 		
 		// Imbrication des éléments
 		nouveau.addActionListener(this);
@@ -156,16 +218,17 @@ public class Fenetre extends JFrame implements ActionListener {
         if(e.getSource()==aPropos)AfficheInfos();
         for(int i=0;i<9;i++){
             if(e.getSource()==boutons[i]){
+            	event = true;
              switch(i){
-             case 0 : coord[0] = 1; coord[1] = 1; break;
-             case 1 : coord[0] = 1; coord[1] = 2; break;
-             case 2 : coord[0] = 1; coord[1] = 3; break;
-             case 3 : coord[0] = 2; coord[1] = 1; break;
-             case 4 : coord[0] = 2; coord[1] = 2; break;
-             case 5 : coord[0] = 2; coord[1] = 3; break;
-             case 6 : coord[0] = 3; coord[1] = 1; break;
-             case 7 : coord[0] = 3; coord[1] = 2; break;
-             case 8 : coord[0] = 3; coord[1] = 3; break;
+             case 0 : coord[0] = 0; coord[1] = 0; break;
+             case 1 : coord[0] = 0; coord[1] = 1; break;
+             case 2 : coord[0] = 0; coord[1] = 2; break;
+             case 3 : coord[0] = 1; coord[1] = 0; break;
+             case 4 : coord[0] = 1; coord[1] = 1; break;
+             case 5 : coord[0] = 1; coord[1] = 2; break;
+             case 6 : coord[0] = 2; coord[1] = 0; break;
+             case 7 : coord[0] = 2; coord[1] = 1; break;
+             case 8 : coord[0] = 2; coord[1] = 2; break;
              }
             }
            }
