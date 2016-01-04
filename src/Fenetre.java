@@ -9,6 +9,9 @@ public class Fenetre extends JFrame implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private boolean deuxJoueurs = false;
+	private boolean qui = true;
 		
 	private JMenuBar menuBar = new JMenuBar();			// Instanciation d'un objet "Barre de menu"
 	
@@ -173,6 +176,18 @@ public class Fenetre extends JFrame implements ActionListener {
 		JOptionPane.showMessageDialog(null, regles, "Comment jouer ?", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	public void MessageFin1(){
+		JOptionPane.showMessageDialog(null, "Vous avez gagné !", "Fin du jeu", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void MessageFin2(){
+		JOptionPane.showMessageDialog(null, "Vous avez perdu !", "Fin du jeu", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public void MessageFin3(){
+		JOptionPane.showMessageDialog(null, "Egalité !", "Fin du jeu", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
 	// Affiche un message "infos"
 	public void AfficheInfos(){
 		JOptionPane.showMessageDialog(null, infos, "Comment jouer ?", JOptionPane.INFORMATION_MESSAGE);
@@ -192,14 +207,25 @@ public class Fenetre extends JFrame implements ActionListener {
 		for(int i=0;i<boutons.length;i++){
 			boutons[i].setIcon(null);
 		}
-		boutons[0].setIcon(rond);
+		deuxJoueurs = false;
+		for (int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				matrice[i][j]=0;
+			}
+		}
 	}
 	
 	public void NouvellePartie2J(){
 		for(int i=0;i<boutons.length;i++){
 			boutons[i].setIcon(null);
 		}
-		boutons[1].setIcon(rond);
+		deuxJoueurs = true;
+		qui=true;
+		for (int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				matrice[i][j]=0;
+			}
+		}
 	}
 	
 	// Change la couleur de fond
@@ -232,6 +258,34 @@ public class Fenetre extends JFrame implements ActionListener {
              }
             }
            }
+        
+        if(deuxJoueurs==true){
+        	for(int i=0;i<9;i++){
+        		if(e.getSource()==boutons[i]){
+        			switch(i){
+                    case 0 : coord[0] = 0; coord[1] = 0; break;
+                    case 1 : coord[0] = 0; coord[1] = 1; break;
+                    case 2 : coord[0] = 0; coord[1] = 2; break;
+                    case 3 : coord[0] = 1; coord[1] = 0; break;
+                    case 4 : coord[0] = 1; coord[1] = 1; break;
+                    case 5 : coord[0] = 1; coord[1] = 2; break;
+                    case 6 : coord[0] = 2; coord[1] = 0; break;
+                    case 7 : coord[0] = 2; coord[1] = 1; break;
+                    case 8 : coord[0] = 2; coord[1] = 2; break;
+                    }
+        			if(qui==true && matrice[coord[0]][coord[1]]==0){
+        				matrice[coord[0]][coord[1]]=1;
+        				majFenetre();
+        			}
+        			if(qui==false && matrice[coord[0]][coord[1]]==0){
+        				matrice[coord[0]][coord[1]]=2;
+        				majFenetre();
+        			}
+        			qui=!qui;
+        		}
+        	}
+        }
+        
 	}
 	
 }

@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Main {
 	
 	public static void main(String[] args){  
+		
 		final int PROFONDEUR_DE_JEU = 2;
 		
 		Fenetre fen = new Fenetre();
@@ -70,6 +73,16 @@ public class Main {
 				fen.majFenetre();
 			}
 		}
+		if(racine.troisPionsAlignes(true)){
+			fen.MessageFin1();
+		}
+		else if (racine.troisPionsAlignes(false)){
+			fen.MessageFin2();
+		}
+		else{
+			fen.MessageFin3();
+		}
+		
 		
 	} 
 }
